@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     AccueilComponent,
     ProblemeComponent,
-    ReactiveFormsModule
+    //ReactiveFormsModule
   ],
   imports: [
     BrowserModule,
