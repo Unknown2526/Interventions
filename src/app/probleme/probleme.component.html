@@ -11,14 +11,14 @@
               <input class="form-control" id="problemeID" type="text" placeholder="Votre prénom ici (obligatoire)" formControlName="prenom"
                 [ngClass]="{'is-invalid': (problemeForm.get('prenom').touched ||
               problemeForm.get('prenom').dirty) &&
-              problemeForm.get('prenom').errors.longueurMinimum && problemeForm.get('prenom').errors.sansEspaces ,
+              !problemeForm.get('prenom').errors.plage,
               'is-valid': (problemeForm.get('prenom').touched ||
               problemeForm.get('prenom').dirty) &&
-              problemeForm.get('prenom').errors.longueurMinimum && !problemeForm.get('prenom').errors.sansEspaces}" />
+              problemeForm.get('prenom').errors.plage}" />
               <span class="form-text" *ngIf="(problemeForm.get('prenom').touched ||
                   problemeForm.get('prenom').dirty) &&
                   problemeForm.get('prenom').errors">
-                <span *ngIf="problemeForm.get('prenom').errors.minlength">
+                <span *ngIf="problemeForm.get('prenom').errors.minLength">
                   <small class="text-muted">
                     Indiquer au moins 3 caractères.
                   </small>
