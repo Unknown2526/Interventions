@@ -50,7 +50,6 @@ describe('longueurMinimum Validator', () => {
 
     it('une phrase avec 3 espaces et 3 caractères est valide', () => {
         let control = { value : "   J'aime Angular"};
-        //control.value = control.value.trim();
         let validator = VerifierCaracteresValidator.longueurMinimum(3);
         let result = validator(control as AbstractControl);
         expect(result['plage']).toBe(true);
@@ -58,7 +57,6 @@ describe('longueurMinimum Validator', () => {
 
     it('une phrase avec 5 espaces, 5 caractères et 5 espaces est valide', () => {
         let control = { value : "     J'aime Angular     "};
-        //control.value = control.value.trim();
         let validator = VerifierCaracteresValidator.longueurMinimum(3);
         let result = validator(control as AbstractControl);
         expect(result['plage']).toBe(true);
