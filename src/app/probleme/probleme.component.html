@@ -11,10 +11,10 @@
               <input class="form-control" id="problemeID" type="text" placeholder="Votre prénom ici (obligatoire)" formControlName="prenom"
                 [ngClass]="{'is-invalid': (problemeForm.get('prenom').touched ||
               problemeForm.get('prenom').dirty) &&
-              !problemeForm.get('prenom').valid,
+              problemeForm.get('prenom').errors.longueurMinimum && problemeForm.get('prenom').errors.sansEspaces ,
               'is-valid': (problemeForm.get('prenom').touched ||
               problemeForm.get('prenom').dirty) &&
-              problemeForm.get('prenom').valid }" />
+              problemeForm.get('prenom').errors.longueurMinimum && !problemeForm.get('prenom').errors.sansEspaces}" />
               <span class="form-text" *ngIf="(problemeForm.get('prenom').touched ||
                   problemeForm.get('prenom').dirty) &&
                   problemeForm.get('prenom').errors">
