@@ -52,13 +52,12 @@
           <div class="form-group row">
             <label for="noProblemeId" class="col-md-2 col-form-label text-right">Type de problème :</label>
             <div class="col-sm-10">
-              <select class="form-control" id="noProblemeId" formControlName="noProbleme">
+              <select class="form-control" id="noProblemeId" formControlName="noProbleme" >
                 <option value="">Sélectionner un type de problème (obligatoire)</option>
-                <option *ngFor="let type of typeProbleme" [value]="type.id">{{type.descriptionTypeProbleme}}</option>
+                <option *ngFor="let type of typeProbleme" [value]="type.id">{{type.descriptionTypeProbleme}} </option>
               </select>
             </div>
           </div>
-
         </form>
       </div>
     </div>

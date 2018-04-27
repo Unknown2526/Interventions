@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProblemeComponent } from './probleme.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProblemeService } from './probleme.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ProblemeComponent', () => {
   let component: ProblemeComponent;
@@ -9,8 +11,9 @@ describe('ProblemeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [ ProblemeComponent ]
+      imports: [ReactiveFormsModule, HttpClientModule],
+      declarations: [ ProblemeComponent ],
+      providers:[ProblemeService]
     })
     .compileComponents();
   }));
@@ -68,4 +71,29 @@ describe('ProblemeComponent', () => {
     zone.setValue('  a');
     expect(zone.valid).toBeFalsy();
   });
+
+  it('Zone TELEPHONE est désactivée quand ne pas me notifier', () => {
+    component.appliquerNotifications();
+
+    let zone = component.problemeForm.get('telephone');
+    expect(zone.status).toEqual('DISABLED');
+  });
+
+  /*it('Zone TELEPHONE est vide quand ne pas me notifier ', () => {
+    component.gestionDates('ParLaPoste');
+
+    let zone = component.problemeForm.get('telephone');
+    expect(zone.status).not.toEqual('DISABLED');
+  });
+
+  it('Zone ADRESSE COURRIEL est désactivée quand ne pas me notifier', () => {
+    component.gestionDates('ParNotification');
+
+    let errors = {};
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue('');
+    errors = zone.errors || {};
+    expect(errors['required']).toBeTruthy();
+  });*/
+
 });
