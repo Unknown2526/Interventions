@@ -53,18 +53,20 @@ export class ProblemeComponent implements OnInit {
     courrielConfirmNoti.reset();
     courrielConfirmNoti.disable();
 
-    if (type === 'ParCourriel'){
+    if (type === 'ParCourriel') {
       telephoneNoti.disable();
       courrielNoti.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);
       courrielNoti.enable();
       courrielConfirmNoti.enable();
       courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents])]);
     }
-
-    if(type === 'ParMessagerie'){
-      telephoneNoti.enable();
-      courrielNoti.disable();
-      courrielConfirmNoti.disable();
+    else {
+      if (type === 'ParMessagerie') {
+        telephoneNoti.enable();
+        telephoneNoti.setValidators([Validators.pattern('[0-9]+'), Validators.minLength(10), Validators.maxLength(10)]);
+        courrielNoti.disable();
+        courrielConfirmNoti.disable();
+      }
     }
 
     telephoneNoti.updateValueAndValidity();

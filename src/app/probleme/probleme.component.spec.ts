@@ -13,10 +13,10 @@ describe('ProblemeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, HttpClientModule],
-      declarations: [ ProblemeComponent ],
-      providers:[ProblemeService]
+      declarations: [ProblemeComponent],
+      providers: [ProblemeService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -25,13 +25,13 @@ describe('ProblemeComponent', () => {
     fixture.detectChanges();
   });
 
-   it('Zone prénom invalide avec 2 caractères', () => {
-     let zone = component.problemeForm.controls['prenom'];
-     zone.setValue('a'.repeat(2));
-     expect(zone.valid).toBeFalsy();
-   });
+  it('Zone prénom invalide avec 2 caractères', () => {
+    let zone = component.problemeForm.controls['prenom'];
+    zone.setValue('a'.repeat(2));
+    expect(zone.valid).toBeFalsy();
+  });
 
-   it('Zone prénom valide avec 3 caractères', () => {
+  it('Zone prénom valide avec 3 caractères', () => {
     let zone = component.problemeForm.controls['prenom'];
     zone.setValue('a'.repeat(3));
     let errors = zone.errors || {};
@@ -73,6 +73,7 @@ describe('ProblemeComponent', () => {
     expect(zone.valid).toBeFalsy();
   });
 
+  //TP12
   it('Zone TELEPHONE est désactivée quand ne pas me notifier', () => {
     component.appliquerNotifications('PasNotifier');
 
@@ -108,7 +109,7 @@ describe('ProblemeComponent', () => {
     let zone = component.problemeForm.get('telephone');
     expect(zone.status).toEqual('DISABLED');
   });
-  
+
   it('Zone ADRESSE COURRIEL est activée quand notifier par courriel', () => {
     component.appliquerNotifications('ParCourriel');
 
@@ -211,9 +212,78 @@ describe('ProblemeComponent', () => {
     errors = groupe.errors || {};
 
 
-    expect(errors['match']).toBeTruthy;
+    expect(errors['match']).toBeUndefined();
   });
   //TP14
 
+  it('Zone TELEPHONE est activée quand notifier par messagerie texte', () => {
+    component.appliquerNotifications('ParMessagerie');
+
+    let zone = component.problemeForm.get('telephone');
+
+    expect(zone.status).not.toBe('DISABLED');
+  });
+
+  it('Zone ADRESSE COURRIEL est désactivée quand notifier par messagerie texte', () => {
+    component.appliquerNotifications('ParMessagerie');
+
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+
+    expect(zone.status).toBe('DISABLED');
+  });
+
+  it('Zone CONFIRMER COURRIEL est désactivée quand notifier par messagerie texte', () => {
+    component.appliquerNotifications('ParMessagerie');
+
+    let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+
+    expect(zone.status).toBe('DISABLED');
+  });
+
+  it('Zone TELEPHONE est invalide sans valeur quand notifier par messagerie texte', () => {
+    component.appliquerNotifications('ParMessagerie');
+
+    let errors = {};
+    let zone = component.problemeForm.get('telephone');
+    errors = zone.errors || {};
+
+    expect(errors['required']).toBeFalsy();
+  });
+
+  it('Zone TELEPHONE est invalide avec des caractères nonnumériques quand notifier par messagerie texte', () => {
+    component.appliquerNotifications('ParMessagerie');
+
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue('abc');
+
+    expect(zone.invalid).toBeTruthy();
+  });
+
+  it('Zone TELEPHONE est invalide avec 9 chiffres consécutifs quand notifier par messagerie texte', () => {
+    component.appliquerNotifications('ParMessagerie');
+
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue('123456789');
+
+    expect(zone.invalid).toBeTruthy();
+  });
+
+  it('Zone TELEPHONE est invalide avec 11 chiffres consécutifs quand notifier par messagerie texte', () => {
+    component.appliquerNotifications('ParMessagerie');
+
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue('12345678910');
+
+    expect(zone.invalid).toBeTruthy();
+  });
   
+  it('Zone TELEPHONE est valide avec 10 chiffres consécutifs quand notifier par messagerie texte', () => {
+    component.appliquerNotifications('ParMessagerie');
+
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue('1234567890');
+
+    expect(zone.valid).toBeTruthy();
+  });
+
 });
