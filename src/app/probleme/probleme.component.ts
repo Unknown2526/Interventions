@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { VerifierCaracteresValidator } from '../shared/caracteres-validator';
 import { ProblemeService } from './probleme.service';
 import { ITypeProbleme } from './probleme';
+import { emailMatcherValidator } from '../shared/emailMatcher-validator';
 
 @Component({
   selector: 'Inter-probleme',
@@ -34,14 +35,41 @@ export class ProblemeComponent implements OnInit {
       error => this.errorMessage = <any>error);
   }
 
-  appliquerNotifications(): void {
+  appliquerNotifications(type: string): void {
     const telephoneNoti = this.problemeForm.get('telephone');
+    const courrielNoti = this.problemeForm.get('courrielGroup.courriel');
+    const courrielConfirmNoti = this.problemeForm.get('courrielGroup.courrielConfirmation');
+    const courrielGroup = this.problemeForm.get('courrielGroup');
+
+    telephoneNoti.clearValidators();
+    telephoneNoti.reset();
     telephoneNoti.disable();
 
-    /*if (typeTelephone === 'ParNotification'){
-      telephoneNoti.setValidators([Validators.required]);
-      telephoneNoti.enable();
+    courrielNoti.clearValidators();
+    courrielNoti.reset();
+    courrielNoti.disable();
+
+    courrielConfirmNoti.clearValidators();
+    courrielConfirmNoti.reset();
+    courrielConfirmNoti.disable();
+
+    if (type === 'ParCourriel'){
+      telephoneNoti.disable();
+      courrielNoti.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);
+      courrielNoti.enable();
+      courrielConfirmNoti.enable();
+      courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents])]);
     }
-    telephoneNoti.updateValueAndValidity();*/
+
+    if(type === 'ParMessagerie'){
+      telephoneNoti.enable();
+      courrielNoti.disable();
+      courrielConfirmNoti.disable();
+    }
+
+    telephoneNoti.updateValueAndValidity();
+    courrielNoti.updateValueAndValidity();
+    courrielConfirmNoti.updateValueAndValidity();
+    courrielGroup.updateValueAndValidity();
   }
 }

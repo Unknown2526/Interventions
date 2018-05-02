@@ -4,6 +4,7 @@ import { ProblemeComponent } from './probleme.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProblemeService } from './probleme.service';
 import { HttpClientModule } from '@angular/common/http';
+import { emailMatcherValidator } from '../shared/emailMatcher-validator';
 
 describe('ProblemeComponent', () => {
   let component: ProblemeComponent;
@@ -73,27 +74,146 @@ describe('ProblemeComponent', () => {
   });
 
   it('Zone TELEPHONE est désactivée quand ne pas me notifier', () => {
-    component.appliquerNotifications();
+    component.appliquerNotifications('PasNotifier');
 
     let zone = component.problemeForm.get('telephone');
     expect(zone.status).toEqual('DISABLED');
   });
 
-  /*it('Zone TELEPHONE est vide quand ne pas me notifier ', () => {
-    component.gestionDates('ParLaPoste');
+  it('Zone TELEPHONE est vide quand ne pas me notifier ', () => {
+    component.appliquerNotifications('PasNotifier');
 
     let zone = component.problemeForm.get('telephone');
-    expect(zone.status).not.toEqual('DISABLED');
+    expect(zone.status).not.toEqual(null);
   });
 
   it('Zone ADRESSE COURRIEL est désactivée quand ne pas me notifier', () => {
-    component.gestionDates('ParNotification');
+    component.appliquerNotifications('PasNotifier');
+
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    expect(zone.status).toEqual('DISABLED');
+  });
+
+  it('Zone CONFIRMER COURRIEL est désactivée quand ne pas me notifier', () => {
+    component.appliquerNotifications('PasNotifier');
+
+    let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    expect(zone.status).toEqual('DISABLED');
+  });
+
+  //TP13
+  it('Zone TELEPHONE est désactivée quand notifier par courriel', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let zone = component.problemeForm.get('telephone');
+    expect(zone.status).toEqual('DISABLED');
+  });
+  
+  it('Zone ADRESSE COURRIEL est activée quand notifier par courriel', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+
+    expect(zone.status).not.toEqual('DISABLED');
+  });
+
+  it('Zone CONFIRMER COURRIEL est activée quand notifier par courriel', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+
+    expect(zone.status).not.toEqual('DISABLED');
+  });
+
+  it('Zone ADRESSE COURRIEL est invalide sans valeur quand notifier par courriel', () => {
+    component.appliquerNotifications('ParCourriel');
 
     let errors = {};
-    let zone = component.problemeForm.get('telephone');
-    zone.setValue('');
+    let zone = component.problemeForm.get('courrielGroup.courriel');
     errors = zone.errors || {};
     expect(errors['required']).toBeTruthy();
-  });*/
+  });
 
+  it('Zone CONFIRMER COURRIEL est invalide sans valeur quand notifier par courriel', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let errors = {};
+    let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    errors = zone.errors || {};
+    expect(errors['required']).toBeFalsy();
+  });
+
+  it('Zone ADRESSE COURRIEL est invalide avec un format non conforme', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    zone.setValue('a1235@');
+
+    expect(zone.valid).toBeFalsy();
+  });
+
+  it('Zone ADRESSE COURRIEL sans valeur et Zone CONFIRMER COURRIEL avec valeur valide retourne null', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let errors = {};
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    let zone2 = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    zone.setValue('a@hotmail.com');
+
+    let groupe = component.problemeForm.get('courrielGroup');
+    errors = groupe.errors || {};
+
+
+    expect(errors['match']).toBeUndefined();
+  });
+
+  it('Zone ADRESSE COURRIEL avec valeur valide et Zone CONFIRMER COURRIEL sans valeur retourne null', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let errors = {};
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    let zone2 = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    zone2.setValue('a@hotmail.com');
+
+    let groupe = component.problemeForm.get('courrielGroup');
+    errors = groupe.errors || {};
+
+
+    expect(errors['match']).toBeUndefined();
+  });
+
+  it('Zones ADRESSE COURRIEL et CONFIRMER COURRIEL sont invalides si les valeurs sont différentes quand notifier par courriel', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let errors = {};
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    let zone2 = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    zone.setValue('abc@hotmail.com')
+    zone2.setValue('123@hotmail.com');
+
+    let groupe = component.problemeForm.get('courrielGroup');
+    errors = groupe.errors || {};
+
+
+    expect(errors['match']).toBeFalsy();
+  });
+
+  it('Zones ADRESSE COURRIEL et CONFIRMER COURRIEL sont valides si les valeurs sont identiques quand notifier par courriel', () => {
+    component.appliquerNotifications('ParCourriel');
+
+    let errors = {};
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    let zone2 = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    zone.setValue('abc1@hotmail.com')
+    zone2.setValue('abc1@hotmail.com');
+
+    let groupe = component.problemeForm.get('courrielGroup');
+    errors = groupe.errors || {};
+
+
+    expect(errors['match']).toBeTruthy;
+  });
+  //TP14
+
+  
 });
