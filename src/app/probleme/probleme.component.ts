@@ -23,16 +23,19 @@ export class ProblemeComponent implements OnInit {
       nom: ['', [VerifierCaracteresValidator.sansEspaces(), VerifierCaracteresValidator.longueurMinimum(3)]],
       noProbleme: ['', Validators.required],
       type: ['', Validators.required],
+      notification:['notifier'],
+      telephone: [{ value: '', disabled: true }],
       courrielGroup: this.fb.group({
         courriel: [{ value: '', disabled: true }],
         courrielConfirmation: [{ value: '', disabled: true }],
       }),
-      telephone: [{ value: '', disabled: true }]
     });
 
     this.problemes.obtenirTypeProbleme()
       .subscribe(type => this.typeProbleme = type,
       error => this.errorMessage = <any>error);
+
+    this.problemeForm.get('notification').valueChanges.subscribe(value => this.appliquerNotifications(value));
   }
 
   appliquerNotifications(type: string): void {
@@ -57,13 +60,14 @@ export class ProblemeComponent implements OnInit {
       telephoneNoti.disable();
       courrielNoti.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);
       courrielNoti.enable();
+      courrielConfirmNoti.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);
       courrielConfirmNoti.enable();
-      courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents])]);
+      courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])]);
     }
     else {
       if (type === 'ParMessagerie') {
         telephoneNoti.enable();
-        telephoneNoti.setValidators([Validators.pattern('[0-9]+'), Validators.minLength(10), Validators.maxLength(10)]);
+        telephoneNoti.setValidators([Validators.required, Validators.pattern('[0-9]+'), Validators.minLength(10), Validators.maxLength(10)]);
         courrielNoti.disable();
         courrielConfirmNoti.disable();
       }
