@@ -7,7 +7,7 @@ export class VerifierCaracteresValidator {
                 return { 'plage': false };
             }
             else {
-                return { 'plage': true };
+                return { 'plage': null };
             }
         };
     }
@@ -18,7 +18,7 @@ export class VerifierCaracteresValidator {
                 return { 'plage': false };
             }
             else {
-                return { 'plage': true };
+                return { 'plage': null };
             }
         };
     }

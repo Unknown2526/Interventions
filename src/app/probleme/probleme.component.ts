@@ -23,12 +23,15 @@ export class ProblemeComponent implements OnInit {
       nom: ['', [VerifierCaracteresValidator.sansEspaces(), VerifierCaracteresValidator.longueurMinimum(3)]],
       noProbleme: ['', Validators.required],
       type: ['', Validators.required],
-      notification:['notifier'],
+      notification:['NePasNotifier'],
       telephone: [{ value: '', disabled: true }],
       courrielGroup: this.fb.group({
         courriel: [{ value: '', disabled: true }],
         courrielConfirmation: [{ value: '', disabled: true }],
       }),
+      descriptionProbleme: ['', [Validators.required, Validators.minLength(5)]],
+      noUnite: '',
+      dateProbleme: {value: Date(), disabled: true}
     });
 
     this.problemes.obtenirTypeProbleme()

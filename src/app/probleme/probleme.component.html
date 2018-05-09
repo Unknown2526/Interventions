@@ -9,7 +9,7 @@
           <div class="form-group row">
             <label for="problemeID" class="col-md-2 col-form-label text-right">Prénom :</label>
             <div class="col-md-10">
-              <input class="form-control" id="problemeID" type="text" placeholder="Votre prénom ici (obligatoire)" formControlName="prenom"
+              <input class="form-control" id="prenom" type="text" placeholder="Votre prénom ici (obligatoire)" formControlName="prenom"
                 [ngClass]="{'is-invalid': (problemeForm.get('prenom').touched ||
               problemeForm.get('prenom').dirty) &&
               !problemeForm.get('prenom').errors.plage,
@@ -31,7 +31,7 @@
           <div class="form-group row">
             <label for="problemeID" class="col-md-2 col-form-label text-right">Nom :</label>
             <div class="col-md-10">
-              <input class="form-control" id="problemeID" type="text" placeholder="Votre nom ici (obligatoire)" formControlName="nom" [ngClass]="{'is-invalid': (problemeForm.get('nom').touched ||
+              <input class="form-control" id="nom" type="text" placeholder="Votre nom ici (obligatoire)" formControlName="nom" [ngClass]="{'is-invalid': (problemeForm.get('nom').touched ||
                 problemeForm.get('nom').dirty) &&
                 !problemeForm.get('nom').errors.plage,
                 'is-valid': (problemeForm.get('nom').touched ||
@@ -52,7 +52,7 @@
           <div class="form-group row">
             <label for="noProblemeId" class="col-md-2 col-form-label text-right">Type de problème :</label>
             <div class="col-sm-10">
-              <select class="form-control" id="noProblemeId" formControlName="noProbleme" [ngClass]="{'is-invalid': (problemeForm.get('noProbleme').touched ||
+              <select class="form-control" id="noTypeProblemeId" formControlName="noProbleme" [ngClass]="{'is-invalid': (problemeForm.get('noProbleme').touched ||
               problemeForm.get('noProbleme').dirty) &&
               problemeForm.get('noProbleme').errors,
               'is-valid': (problemeForm.get('noProbleme').touched ||
@@ -71,15 +71,15 @@
             <div class="col-md-2"></div>
             <div class="col-md-10">
               <label class="radio-inline">
-                <input type="radio" value="NePasNotifier" id="NotificationID" formControlName="notification">&nbsp;Ne pas me notifier
+                <input type="radio" checked value="NePasNotifier" id="NotifiezMoiId" formControlName="notification">&nbsp;Ne pas me notifier
               </label>
               &nbsp;&nbsp;&nbsp;
               <label class="radio-inline">
-                <input type="radio" value="ParCourriel" id="NotificationID" formControlName="notification">&nbsp;Par courriel
+                <input type="radio" value="ParCourriel" id="NePasNotifier" formControlName="notification">&nbsp;Par courriel
               </label>
               &nbsp;&nbsp;&nbsp;
               <label class="radio-inline">
-                <input type="radio" value="ParMessagerie" id="NotificationID" formControlName="notification">&nbsp;Par message texte
+                <input type="radio" value="ParMessagerie" id="NePasNotifier" formControlName="notification">&nbsp;Par message texte
               </label>
             </div>
           </div>
@@ -180,6 +180,66 @@
               </span>
             </div>
           </div>
+
+          <!-- Zone de texte # Unité -->
+          <div class="form-group row">
+            <label for="noUnitedId" class="col-md-2 col-form-label text-right"># Unité :</label>
+            <div class="col-md-10">
+              <input class="form-control" id="noUniteId" type="text" placeholder="Numéro de l'unité si connu" formControlName="noUnite"
+              />
+            </div>
+          </div>
+
+          <!-- Zone de texte DESCRIPTION DU PROBLÈME -->
+          <div class="form-group row">
+            <label for="descriptionProblemeId" class="col-md-2 col-form-label textright">Description du problème :</label>
+            <div class="col-md-10">
+              <textarea class="form-control" rows="3" id="descriptionProblemeId" type="text" placeholder="Décrire le propblème ici (obligatoire)"
+                formControlName="descriptionProbleme" [ngClass]="{'is-valid':
+ (problemeForm.get('descriptionProbleme').touched ||
+ problemeForm.get('descriptionProbleme').dirty) &&
+  problemeForm.get('descriptionProbleme').valid,
+  'is-invalid': (problemeForm.get('descriptionProbleme').touched
+ || problemeForm.get('descriptionProbleme').dirty) &&
+  !problemeForm.get('descriptionProbleme').valid }"></textarea>
+              <span class="form-text" *ngIf="(problemeForm.get('descriptionProbleme').touched ||
+  problemeForm.get('descriptionProbleme').dirty) &&
+  problemeForm.get('descriptionProbleme').errors">
+                <span *ngIf="problemeForm.get('descriptionProbleme').errors.required">
+                  <small class="text-muted">
+                    N'oubliez pas de décriree le plus clairement possible le problème rencontré.
+                  </small>
+                </span>
+                <span *ngIf="problemeForm.get('descriptionProbleme').errors.minlength">
+                  <small class="text-muted">
+                    La description du problème doit comporter plus de 5 caractères.
+                  </small>
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Zone de texte # Unité -->
+          <div class="form-group row">
+            <label for="dateProblemeId" class="col-md-2 col-form-label textright">Date :
+            </label>
+            <div class="col-md-10">
+              <input class="form-control" id="dateProblemeId" type="text" formControlName="dateProbleme" />
+            </div>
+          </div>
+
+          <!-- DEBUT Zone bouton sauvegarder -->
+          <div class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <span>
+                <button class="btn btn-primary" type="submit" [disabled]="!problemeForm.valid">
+                  &nbsp;Sauvegarder
+                </button>
+              </span>
+            </div>
+          </div>
+          <!-- FIN Zone bouton sauvegarder -->
 
         </form>
       </div>

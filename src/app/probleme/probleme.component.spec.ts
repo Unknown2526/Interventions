@@ -35,14 +35,14 @@ describe('ProblemeComponent', () => {
     let zone = component.problemeForm.controls['prenom'];
     zone.setValue('a'.repeat(3));
     let errors = zone.errors || {};
-    expect(errors['plage']).toBeTruthy();
+    expect(errors['plage']).toBeNull();
   });
 
   it('Zone prénom valide avec 200 caractères', () => {
     let zone = component.problemeForm.controls['prenom'];
     zone.setValue('a'.repeat(200));
     let errors = zone.errors || {};
-    expect(errors['plage']).toBeTruthy();
+    expect(errors['plage']).toBeNull();
   });
 
   it('Zone prénom invalide avec aucune valeur', () => {
@@ -141,7 +141,7 @@ describe('ProblemeComponent', () => {
     let errors = {};
     let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
     errors = zone.errors || {};
-    expect(errors['required']).toBeFalsy();
+    expect(errors['required']).toBeTruthy();
   });
 
   it('Zone ADRESSE COURRIEL est invalide avec un format non conforme', () => {
@@ -196,7 +196,7 @@ describe('ProblemeComponent', () => {
     errors = groupe.errors || {};
 
 
-    expect(errors['match']).toBeFalsy();
+    expect(errors['match']).toBeTruthy();
   });
 
   it('Zones ADRESSE COURRIEL et CONFIRMER COURRIEL sont valides si les valeurs sont identiques quand notifier par courriel', () => {
@@ -247,7 +247,7 @@ describe('ProblemeComponent', () => {
     let zone = component.problemeForm.get('telephone');
     errors = zone.errors || {};
 
-    expect(errors['required']).toBeFalsy();
+    expect(errors['required']).toBeTruthy();
   });
 
   it('Zone TELEPHONE est invalide avec des caractères nonnumériques quand notifier par messagerie texte', () => {
